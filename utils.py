@@ -30,3 +30,25 @@ def filter_jpeg_files_direct_children(file_paths, folder_name):
 def query_bigquery(query: str, big_query_client):
     query_job = big_query_client.query(query)
     return query_job.to_dataframe()
+
+
+def download_blob(bucket_name, source_blob_name, destination_file_name):
+    """Downloads a blob from the bucket."""
+    # The ID of your GCS bucket
+    # bucket_name = "your-bucket-name"
+
+    # The ID of your GCS object
+    # source_blob_name = "storage-object-name"
+
+    # The path to which the file should be downloaded
+    # destination_file_name = "/local/path/to/file"
+
+    storage_client = storage.Client()
+
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(source_blob_name)
+    blob.download_to_filename(destination_file_name)
+
+    print(
+        f"Downloaded storage object {source_blob_name} from bucket {bucket_name} to local file {destination_file_name}."
+    )
